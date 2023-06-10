@@ -1,3 +1,4 @@
+import Footer from './footer/Footer';
 import Header from './header/Header';
 import Main from './main/Main';
 
@@ -6,9 +7,7 @@ function App() {
     <div className="App">
       <Header/>
       <Main/>
-      <footer className="footer">
-        <p className="footer__info">© 2023 Mesto Russia</p>
-      </footer>
+      <Footer/>
       <div className="popup popup_type_profile">
         <div className="popup__container">
           <form className="form form_type_profile" name="edit-profile-form" noValidate>
