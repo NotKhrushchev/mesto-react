@@ -18,6 +18,9 @@ const Main = ({onEditProfile, onEditAvatar, onAddPlace, onCardClick}) => {
             setUserAvatar(info.avatar);
             setCards(initialCards.reverse());
         })
+        .catch((err)=>{
+            console.log(err);
+        })
     }, [])
 
     return (
