@@ -1,5 +1,5 @@
 import React from 'react';
-import api from '../utils/api.js';
+import api from '../../utils/Api.js';
 import Card from '../card/Card';
 
 const Main = ({onEditProfile, onEditAvatar, onAddPlace, onCardClick}) => {
