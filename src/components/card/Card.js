@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 const Card = ({card, onCardClick}) => {
+
+    const currentUser = useContext(CurrentUserContext);
+    const isOwn = card.owner._id === currentUser._id;
+    const isLiked = card.likes.some(user => user._id === currentUser._id);
+
     return (
         <article className="card">
-            <button className="card__remove-btn btn" aria-label="Удалить карточку"></button>
+            {isOwn && <button className="card__remove-btn btn" aria-label="Удалить карточку"/>}
             <img className="card__img" src={card.link} alt={`Фото места: ${card.name}`} draggable="false" onClick={() => onCardClick(card)}/>
             <div className="card__info">
                 <p className="card__desc">{card.name}</p>
                 <div className="card__like-section">
-                    <button className="card__like-btn btn" aria-label="Отметить понравившееся фото"></button>
+                    <button className={`card__like-btn btn ${isLiked && "card__like-btn_liked"}`} aria-label="Отметить понравившееся фото"/>
                     <p className="card__like-counter">{card.likes.length}</p>
                 </div>
             </div>

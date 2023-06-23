@@ -1,17 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Footer from './footer/Footer';
 import Header from './header/Header';
 import Main from './main/Main';
 import PopupWithForm from './popupWithForm/PopupWithForm';
 import ImagePopup from './imagePopup/ImagePopup';
+import api from '../utils/api';
+import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function App() {
+  const [currentUser, setCurrentUser] = useState({});
+
+  /** Получаю данные о пользователе при монтировании App */
+  useEffect(() => {
+    api.getProfileInfo()
+    .then(res => setCurrentUser(res));
+  }, []);
+  console.log(currentUser)
 
   /** Инициализирую состояние каждого попапа */
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState()
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState({});
 
   /** Функции открытия попапов */
   const handleEditProfileClick = () => {
@@ -27,7 +37,7 @@ function App() {
   }
 
   const handleCardClick = (card) => {
-    setSelectedCard(card)
+    setSelectedCard(card);
   }
 
   /** Закрытие всех попапов */
@@ -35,18 +45,20 @@ function App() {
     setEditProfilePopupOpen(false);
     setEditAvatarPopupOpen(false);
     setAddPlacePopupOpen(false);
-    setSelectedCard()
+    setSelectedCard({});
   }
 
   return (
     <div className="App">
       <Header/>
-      <Main
-        onEditProfile={handleEditProfileClick}
-        onEditAvatar={handleEditAvatarClick}
-        onAddPlace={handleAddPlaceClick}
-        onCardClick={handleCardClick}
-      />
+      <CurrentUserContext.Provider value={currentUser}>
+        <Main
+          onEditProfile={handleEditProfileClick}
+          onEditAvatar={handleEditAvatarClick}
+          onAddPlace={handleAddPlaceClick}
+          onCardClick={handleCardClick}
+        />
+      </CurrentUserContext.Provider>
       <Footer/>
       <PopupWithForm
         title='Редактировать профиль'
