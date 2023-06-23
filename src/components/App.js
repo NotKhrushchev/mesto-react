@@ -9,13 +9,32 @@ import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
 
-  /** Получаю данные о пользователе при монтировании App */
+  /** Получаю карточки и данные о пользователе при монтировании App */
   useEffect(() => {
-    api.getProfileInfo()
-    .then(res => setCurrentUser(res));
+    Promise.all([api.getProfileInfo(), api.getInitialCards()])
+    .then(([currentUser, cards]) => {
+        setCurrentUser(currentUser)
+        setCards(cards.reverse());
+    })
+    .catch((err)=>{
+        console.log(err);
+    })
   }, []);
-  console.log(currentUser)
+
+  
+  /** Обработчик нажатия на лайк карточки */
+  const handleCardLike = (card) => {
+
+    /** Повторно проверяем есть ли лайк на карточке */
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+    api.changeLikeCardStatus(card._id, isLiked)
+    .then(newCard => {
+      setCards(state => state.map((c) => c._id === card._id ? newCard : c));
+    });
+  }
 
   /** Инициализирую состояние каждого попапа */
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -53,10 +72,12 @@ function App() {
       <Header/>
       <CurrentUserContext.Provider value={currentUser}>
         <Main
+          cards={cards}
           onEditProfile={handleEditProfileClick}
           onEditAvatar={handleEditAvatarClick}
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
+          onCardLike={handleCardLike}
         />
       </CurrentUserContext.Provider>
       <Footer/>

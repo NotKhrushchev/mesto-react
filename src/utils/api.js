@@ -63,22 +63,21 @@ class Api {
         .then(res => this._checkAnswer(res))
     }
 
-    /** Запрос на установку лайка у карточки */
-    setCardLike(cardId) {
-        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-            method: 'PUT',
-            headers: this._headers
-        })
-        .then(res => this._checkAnswer(res))
-    }
-
-    /** Запрос на снятие лайка у карточки */
-    removeCardLike(cardId) {
-        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
-            method: 'DELETE',
-            headers: this._headers
-        })
-        .then(res => this._checkAnswer(res))
+    /** Запрос на изменение статуса лайка карточки */
+    changeLikeCardStatus(cardId, isLiked) {
+        if(!isLiked) {
+            return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+                method: 'PUT',
+                headers: this._headers
+            })
+            .then(res => this._checkAnswer(res));
+        } else {
+            return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+                method: 'DELETE',
+                headers: this._headers
+            })
+            .then(res => this._checkAnswer(res));
+        }
     }
 
     /** Запрос на изменение аватара */

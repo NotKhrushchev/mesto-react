@@ -1,23 +1,10 @@
-import React, {useContext, useEffect} from 'react';
-import api from '../../utils/api';
+import React, { useContext } from 'react';
 import Card from '../card/Card';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-const Main = ({onEditProfile, onEditAvatar, onAddPlace, onCardClick}) => {
+const Main = ({cards, onEditProfile, onEditAvatar, onAddPlace, onCardClick, onCardLike}) => {
     
     const currentUser = useContext(CurrentUserContext);
-    const [cards, setCards] = React.useState([]);
-
-    /** Получение карточек */
-    useEffect(() => {
-        api.getInitialCards()
-        .then(initialCards => {
-            setCards(initialCards.reverse());
-        })
-        .catch((err)=>{
-            console.log(err);
-        })
-    }, [])
 
     return (
         <main className="main">
@@ -35,8 +22,9 @@ const Main = ({onEditProfile, onEditAvatar, onAddPlace, onCardClick}) => {
                     <Card
                         key={card._id}
                         card={card}
-                        /** Прокинул из App обработчик нажатия на карточку */
+                        /** Прокинул из App обработчик нажатия на карточку и лайк */
                         onCardClick={onCardClick}
+                        onCardLike={onCardLike}
                     />
                 ))}
             </section>
