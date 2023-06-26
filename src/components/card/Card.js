@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-const Card = ({card, onCardClick, onCardLike}) => {
+const Card = ({card, onCardClick, onCardLike, onCardRemove}) => {
 
     const currentUser = useContext(CurrentUserContext);
     const isOwn = card.owner._id === currentUser._id;
@@ -9,7 +9,7 @@ const Card = ({card, onCardClick, onCardLike}) => {
 
     return (
         <article className="card">
-            {!isOwn && <button className="card__remove-btn btn" aria-label="Удалить карточку"/>}
+            {isOwn && <button className="card__remove-btn btn" aria-label="Удалить карточку" onClick={() => onCardRemove(card)}/>}
             <img className="card__img" src={card.link} alt={`Фото места: ${card.name}`} draggable="false" onClick={() => onCardClick(card)}/>
             <div className="card__info">
                 <p className="card__desc">{card.name}</p>

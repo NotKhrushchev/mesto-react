@@ -16,9 +16,9 @@ function App() {
     Promise.all([api.getProfileInfo(), api.getInitialCards()])
     .then(([currentUser, cards]) => {
         setCurrentUser(currentUser)
-        setCards(cards.reverse());
+        setCards(cards);
     })
-    .catch((err)=>{
+    .catch(err => {
         console.log(err);
     })
   }, []);
@@ -27,14 +27,28 @@ function App() {
   /** Обработчик нажатия на лайк карточки */
   const handleCardLike = (card) => {
 
-    /** Повторно проверяем есть ли лайк на карточке */
+    // Повторно проверяем есть ли лайк на карточке
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
     api.changeLikeCardStatus(card._id, isLiked)
     .then(newCard => {
-      setCards(state => state.map((c) => c._id === card._id ? newCard : c));
+      setCards(cards => cards.map(e => e._id === card._id ? newCard : e));
+    })
+    .catch(err => {
+      console.log(err);
     });
   }
+
+  /** Обработчик нажатия на мусорку карточки */
+  const handleCardRemove = (card) => {
+    api.removeCard(card._id)
+    .then(()=> {
+      setCards(cards => cards.filter(e => e._id !== card._id))
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  } 
 
   /** Инициализирую состояние каждого попапа */
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -78,6 +92,7 @@ function App() {
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
+          onCardRemove={handleCardRemove}
         />
       </CurrentUserContext.Provider>
       <Footer/>

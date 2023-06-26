@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Card from '../card/Card';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-const Main = ({cards, onEditProfile, onEditAvatar, onAddPlace, onCardClick, onCardLike}) => {
+const Main = ({cards, onEditProfile, onEditAvatar, onAddPlace, onCardClick, onCardLike, onCardRemove}) => {
     
     const currentUser = useContext(CurrentUserContext);
 
@@ -25,6 +25,7 @@ const Main = ({cards, onEditProfile, onEditAvatar, onAddPlace, onCardClick, onCa
                         /** Прокинул из App обработчик нажатия на карточку и лайк */
                         onCardClick={onCardClick}
                         onCardLike={onCardLike}
+                        onCardRemove={onCardRemove}
                     />
                 ))}
             </section>
