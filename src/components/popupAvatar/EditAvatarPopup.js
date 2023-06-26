@@ -6,7 +6,7 @@ const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar}) => {
     // Через референс получаю значение value из инпута для аватарки
     const avatar = useRef();
 
-    const handleSubmit = (e) => {
+    const handleUpdateAvatarSubmit = (e) => {
         e.preventDefault();
 
         onUpdateAvatar(avatar.current.value);
@@ -19,7 +19,7 @@ const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar}) => {
             submitByttonText='Сохранить'
             isOpen={isOpen}
             onClose={onClose}
-            onSubmit={handleSubmit}
+            onSubmit={handleUpdateAvatarSubmit}
         >
             <input ref={avatar} type="url" id="avatar-input" name="link" className="form__input form__input_type_link" placeholder="Ссылка на фото" required/>
             <span className="form__input-error avatar-input-error"></span>

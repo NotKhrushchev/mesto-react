@@ -22,7 +22,7 @@ const Main = ({cards, onEditProfile, onEditAvatar, onAddPlace, onCardClick, onCa
                     <Card
                         key={card._id}
                         card={card}
-                        /** Прокинул из App обработчик нажатия на карточку и лайк */
+                        // Прокинул из App обработчик нажатия на карточку и лайк
                         onCardClick={onCardClick}
                         onCardLike={onCardLike}
                         onCardRemove={onCardRemove}

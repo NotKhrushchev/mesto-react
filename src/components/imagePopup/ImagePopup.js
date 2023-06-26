@@ -1,4 +1,4 @@
-/** Попап с картинкой */
+// Попап с картинкой
 import React from 'react';
 
 const ImagePopup = ({card, onClose}) => {

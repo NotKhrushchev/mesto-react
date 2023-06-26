@@ -17,17 +17,8 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateProfile}) => {
         }
     }, [currentUser]);
 
-    // Обработчик на изменение имени пользователя
-    const handleNameChange = (e) => {
-        setName(e.target.value);
-    }
-
-    // Обработчик на изменение описания пользователя
-    const handleDescriptionChange = (e) => {
-        setDescription(e.target.value);
-    }
-
-    const handleSubmit = (e) => {
+    // Обработчик изменения данных профиля
+    const handleEditProfileSubmit = (e) => {
         e.preventDefault();
 
         onUpdateProfile({
@@ -43,11 +34,11 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateProfile}) => {
             submitByttonText='Сохранить'
             isOpen={isOpen}
             onClose={onClose}
-            onSubmit={handleSubmit}
+            onSubmit={handleEditProfileSubmit}
         >
-            <input type="text" id="name-input" name="name" className="form__input form__input_type_name" placeholder="Имя" required minLength="2" maxLength="40" value={name} onChange={handleNameChange}/>
+            <input type="text" id="name-input" name="name" className="form__input form__input_type_name" placeholder="Имя" required minLength="2" maxLength="40" value={name} onChange={e => setName(e.target.value)}/>
             <span className="form__input-error name-input-error"></span>
-            <input type="text" id="interest-input" name="interest" className="form__input form__input_type_interest" placeholder="О себе" required minLength="2" maxLength="200" value={description} onChange={handleDescriptionChange}/>
+            <input type="text" id="interest-input" name="interest" className="form__input form__input_type_interest" placeholder="О себе" required minLength="2" maxLength="200" value={description} onChange={e => setDescription(e.target.value)}/>
             <span className="form__input-error interest-input-error"></span>
         </PopupWithForm>
     );

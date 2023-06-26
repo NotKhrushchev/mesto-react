@@ -1,4 +1,4 @@
-//** Работа с Api */
+// Работа с Api
 class Api {
     constructor(options) {
         this._baseUrl = options.baseUrl;
@@ -12,7 +12,7 @@ class Api {
         return Promise.reject(`Ошибка: ${res.status}`)
     }
 
-    /** Запрос на получение информации профиля */
+    // Запрос на получение информации профиля
     getProfileInfo() {
         return fetch(`${this._baseUrl}/users/me`, {
             headers: this._headers
@@ -20,7 +20,7 @@ class Api {
         .then(res => this._checkAnswer(res))
     }
 
-    /** Запрос на изменение информации профиля */
+    // Запрос на изменение информации профиля
     setProfileInfo(profileData) {
         return fetch(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
@@ -33,7 +33,7 @@ class Api {
         .then(res => this._checkAnswer(res))
     }
 
-    /** Запрос на загрузку всех карточек */
+    // Запрос на загрузку всех карточек
     getInitialCards() {
         return fetch(`${this._baseUrl}/cards`, {
             headers: this._headers
@@ -41,7 +41,7 @@ class Api {
         .then(res => this._checkAnswer(res))
     }
 
-    /** Запрос на публикацию карточки */
+    // Запрос на публикацию карточки
     postNewCard(cardData) {
         return fetch(`${this._baseUrl}/cards`, {
             method: 'POST',
@@ -54,7 +54,7 @@ class Api {
         .then(res => this._checkAnswer(res))
     }
 
-    /** Запрос на удаление карточки */
+    // Запрос на удаление карточки
     removeCard(cardId) {
         return fetch(`${this._baseUrl}/cards/${cardId}`, {
             method: 'DELETE',
@@ -63,7 +63,7 @@ class Api {
         .then(res => this._checkAnswer(res))
     }
 
-    /** Запрос на изменение статуса лайка карточки */
+    // Запрос на изменение статуса лайка карточки
     changeLikeCardStatus(cardId, isLiked) {
         if(!isLiked) {
             return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
@@ -80,7 +80,7 @@ class Api {
         }
     }
 
-    /** Запрос на изменение аватара */
+    // Запрос на изменение аватара 
     setAvatar(avatarLink) {
         return fetch(`${this._baseUrl}/users/me/avatar`, {
             method: 'PATCH',
