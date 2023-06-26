@@ -11,8 +11,10 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateProfile}) => {
     const [description, setDescription] = useState('О себе');
 
     useEffect(() => {
-        setName(currentUser.name);
-        setDescription(currentUser.about)
+        if (Object.keys(currentUser).length) {
+            setName(currentUser.name);
+            setDescription(currentUser.about)
+        }
     }, [currentUser]);
 
     // Обработчик на изменение имени пользователя

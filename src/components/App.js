@@ -6,7 +6,8 @@ import PopupWithForm from './popupWithForm/PopupWithForm';
 import ImagePopup from './imagePopup/ImagePopup';
 import api from '../utils/api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
-import EditProfilePopup from './profilePopup/EditProfilePopup';
+import EditProfilePopup from './popupProfile/EditProfilePopup';
+import EditAvatarPopup from './popupAvatar/EditAvatarPopup';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -80,6 +81,8 @@ function App() {
     setEditAvatarPopupOpen(false);
     setAddPlacePopupOpen(false);
     setSelectedCard({});
+    // Сбрасываю значения в полях всех форм по закрытию попапа
+    document.querySelectorAll('form').forEach(form => form.reset());
   }
 
   // Обновление данных пользователя
@@ -88,6 +91,17 @@ function App() {
     .then(newProfileData => {
       setCurrentUser(newProfileData)
       closeAllPopups();
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
+  const handleUpdateAvatar = (avatarLink) => {
+    api.setAvatar(avatarLink)
+    .then(newProfileAvatar => {
+      setCurrentUser(newProfileAvatar)
+      closeAllPopups()
     })
     .catch(err => {
       console.log(err);
@@ -117,7 +131,7 @@ function App() {
           title='Новое место'
           name='place'
           submitByttonText='Создать'
-          isOpened={isAddPlacePopupOpen}
+          isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
         >
           <input type="text" id="name-img-input" name="name" className="form__input form__input_type_name" placeholder="Название" required minLength="2" maxLength="30"/>
@@ -125,23 +139,11 @@ function App() {
           <input type="url" id="url-input" name="link" className="form__input form__input_type_link" placeholder="Ссылка на картинку" required/>
           <span className="form__input-error url-input-error"></span>
         </PopupWithForm>
-        <PopupWithForm
-          title='Вы уверены?'
-          name='remove-card'
-          submitByttonText='Да'
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-        >
-        </PopupWithForm>
-        <PopupWithForm
-          title='Обновить аватар'
-          name='set-avatar'
-          submitByttonText='Сохранить'
-          isOpened={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-        >
-          <input type="url" id="avatar-input" name="link" className="form__input form__input_type_link" placeholder="Ссылка на фото" required/>
-          <span className="form__input-error avatar-input-error"></span>
-        </PopupWithForm>
+          onUpdateAvatar={handleUpdateAvatar}
+        />
         <ImagePopup
           card={selectedCard}
           onClose={closeAllPopups}
