@@ -115,6 +115,9 @@ function App() {
       setCards([newCard, ...cards])
       closeAllPopups()
     })
+    .catch(err => {
+      console.log(err);
+    });
   }
 
   return (
