@@ -27,7 +27,7 @@ class Api {
             headers: this._headers,
             body: JSON.stringify({
                 name: profileData.name,
-                about: profileData.interest
+                about: profileData.about
             })
         })
         .then(res => this._checkAnswer(res))

@@ -1,0 +1,54 @@
+import React, { useContext, useEffect, useState } from 'react';
+import PopupWithForm from '../popupWithForm/PopupWithForm';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
+
+const EditProfilePopup = ({isOpen, onClose, onUpdateProfile}) => {
+
+    // Подписываюсь на контекст с информацией о пользователе
+    const currentUser = useContext(CurrentUserContext);
+
+    const [name, setName] = useState('Имя');
+    const [description, setDescription] = useState('О себе');
+
+    useEffect(() => {
+        setName(currentUser.name);
+        setDescription(currentUser.about)
+    }, [currentUser]);
+
+    // Обработчик на изменение имени пользователя
+    const handleNameChange = (e) => {
+        setName(e.target.value);
+    }
+
+    // Обработчик на изменение описания пользователя
+    const handleDescriptionChange = (e) => {
+        setDescription(e.target.value);
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        onUpdateProfile({
+            name: name,
+            about: description,
+        });
+    }
+
+    return (
+        <PopupWithForm
+            title='Редактировать профиль'
+            name='profile'
+            submitByttonText='Сохранить'
+            isOpen={isOpen}
+            onClose={onClose}
+            onSubmit={handleSubmit}
+        >
+            <input type="text" id="name-input" name="name" className="form__input form__input_type_name" placeholder="Имя" required minLength="2" maxLength="40" value={name} onChange={handleNameChange}/>
+            <span className="form__input-error name-input-error"></span>
+            <input type="text" id="interest-input" name="interest" className="form__input form__input_type_interest" placeholder="О себе" required minLength="2" maxLength="200" value={description} onChange={handleDescriptionChange}/>
+            <span className="form__input-error interest-input-error"></span>
+        </PopupWithForm>
+    );
+};
+
+export default EditProfilePopup;
