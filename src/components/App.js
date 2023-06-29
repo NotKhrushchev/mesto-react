@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Footer from './footer/Footer';
 import Header from './header/Header';
 import Main from './main/Main';
-import PopupWithForm from './popupWithForm/PopupWithForm';
 import ImagePopup from './imagePopup/ImagePopup';
 import api from '../utils/api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
@@ -13,6 +12,8 @@ import AddPlacePopup from './popupPlace/AddPlacePopup';
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+
+  const [loading, setLoading] = useState(false);
 
   // Инициализирую состояние каждого попапа
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -88,6 +89,7 @@ function App() {
 
   // Обновление данных пользователя
   const handleUpdateProfile = (profileData) => {
+    setLoading(true)
     api.setProfileInfo(profileData)
     .then(newProfileData => {
       setCurrentUser(newProfileData)
@@ -95,7 +97,10 @@ function App() {
     })
     .catch(err => {
       console.log(err);
-    });
+    })
+    .finally(() => {
+      setLoading(false)
+    })
   }
 
   const handleUpdateAvatar = (avatarLink) => {
@@ -135,6 +140,7 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateProfile={handleUpdateProfile}
+          loading={loading}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}

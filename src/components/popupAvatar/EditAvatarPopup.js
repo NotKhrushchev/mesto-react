@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import PopupWithForm from '../popupWithForm/PopupWithForm';
 
 const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar}) => {
@@ -21,7 +21,15 @@ const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar}) => {
             onClose={onClose}
             onSubmit={handleUpdateAvatarSubmit}
         >
-            <input ref={avatar} type="url" id="avatar-input" name="link" className="form__input form__input_type_link" placeholder="Ссылка на фото" required/>
+            <input 
+                ref={avatar} 
+                type="url" 
+                id="avatar-input" 
+                name="link" 
+                className="form__input form__input_type_link" 
+                placeholder="Ссылка на фото" 
+                required
+            />
             <span className="form__input-error avatar-input-error"></span>
         </PopupWithForm>
     );

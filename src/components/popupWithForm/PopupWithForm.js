@@ -1,7 +1,7 @@
 // Общий попап с формой
 import React from 'react';
 
-const PopupWithForm = ({title, name, submitByttonText, isOpen, onClose, onSubmit, children}) => {
+const PopupWithForm = ({title, name, submitByttonText, isOpen, onClose, onSubmit, loading, children}) => {
     return (
         // Изменяем класс попапа в зависимости от состояния isOpened
         <div className={`popup popup_type_${name} ${isOpen ? 'popup_opened' : ''}`}>
@@ -9,7 +9,7 @@ const PopupWithForm = ({title, name, submitByttonText, isOpen, onClose, onSubmit
                 <form className="form form_type_profile" name={`${name}-form`} noValidate onSubmit={onSubmit}>
                     <h2 className="form__header">{title}</h2>
                     {children}
-                    <button className="form__save-btn btn" type="submit" aria-label="Сохранить">{submitByttonText}</button>
+                    <button className="form__save-btn btn" type="submit" aria-label="Сохранить">{loading ? `${submitByttonText}...` : submitByttonText}</button>
                 </form>
                 <button className="popup__close-btn profile-close-btn btn" type="button" aria-label="Закрыть окно" onClick={onClose}></button>
             </div>
