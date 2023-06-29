@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Footer from './footer/Footer';
 import Header from './header/Header';
 import Main from './main/Main';
@@ -13,7 +14,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   // Инициализирую состояние каждого попапа
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -89,7 +90,7 @@ function App() {
 
   // Обновление данных пользователя
   const handleUpdateProfile = (profileData) => {
-    setLoading(true)
+    dispatch({type: 'SET_LOADING_TRUE'});
     api.setProfileInfo(profileData)
     .then(newProfileData => {
       setCurrentUser(newProfileData)
@@ -99,26 +100,36 @@ function App() {
       console.log(err);
     })
     .finally(() => {
-      setLoading(false)
+      dispatch({type: 'SET_LOADING_FALSE'});
     })
   }
 
+  // Обновление аватара
   const handleUpdateAvatar = (avatarLink) => {
+    dispatch({type: 'SET_LOADING_TRUE'});
     api.setAvatar(avatarLink)
-    .then(newProfileAvatar => {
-      setCurrentUser(newProfileAvatar)
+    .then(newProfileData => {
+      setCurrentUser(newProfileData)
       closeAllPopups()
     })
     .catch(err => {
       console.log(err);
-    });
+    })
+    .finally(() => {
+      dispatch({type: 'SET_LOADING_FALSE'});
+    })
   }
 
+  // Добавление новой карточки
   const handleAddPlace = (cardData) => {
+    dispatch({type: 'SET_LOADING_TRUE'});
     api.postNewCard(cardData)
     .then(newCard => {
       setCards([newCard, ...cards])
       closeAllPopups()
+    })
+    .finally(() => {
+      dispatch({type: 'SET_LOADING_FALSE'});
     })
   }
 
@@ -140,7 +151,6 @@ function App() {
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateProfile={handleUpdateProfile}
-          loading={loading}
         />
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import PopupWithForm from '../popupWithForm/PopupWithForm';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-const EditProfilePopup = ({isOpen, onClose, onUpdateProfile, loading}) => {
+const EditProfilePopup = ({ isOpen, onClose, onUpdateProfile }) => {
 
     // Подписываюсь на контекст с информацией о пользователе
     const currentUser = useContext(CurrentUserContext);
@@ -35,7 +35,6 @@ const EditProfilePopup = ({isOpen, onClose, onUpdateProfile, loading}) => {
             isOpen={isOpen}
             onClose={onClose}
             onSubmit={handleEditProfileSubmit}
-            loading={loading}
         >
             <input 
                 type="text" 

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import PopupWithForm from '../popupWithForm/PopupWithForm';
 
-const EditAvatarPopup = ({isOpen, onClose, onUpdateAvatar}) => {
+const EditAvatarPopup = ({ isOpen, onClose, onUpdateAvatar }) => {
 
     // Через референс получаю значение value из инпута для аватарки
     const avatar = useRef();
