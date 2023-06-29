@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Footer from './footer/Footer';
 import Header from './header/Header';
 import Main from './main/Main';
-import PopupWithForm from './popupWithForm/PopupWithForm';
 import ImagePopup from './imagePopup/ImagePopup';
 import api from '../utils/api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
@@ -13,6 +13,8 @@ import AddPlacePopup from './popupPlace/AddPlacePopup';
 function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+
+  const dispatch = useDispatch();
 
   // Инициализирую состояние каждого попапа
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -88,6 +90,7 @@ function App() {
 
   // Обновление данных пользователя
   const handleUpdateProfile = (profileData) => {
+    dispatch({type: 'SET_LOADING_TRUE'});
     api.setProfileInfo(profileData)
     .then(newProfileData => {
       setCurrentUser(newProfileData)
@@ -95,21 +98,31 @@ function App() {
     })
     .catch(err => {
       console.log(err);
-    });
+    })
+    .finally(() => {
+      dispatch({type: 'SET_LOADING_FALSE'});
+    })
   }
 
+  // Обновление аватара
   const handleUpdateAvatar = (avatarLink) => {
+    dispatch({type: 'SET_LOADING_TRUE'});
     api.setAvatar(avatarLink)
-    .then(newProfileAvatar => {
-      setCurrentUser(newProfileAvatar)
+    .then(newProfileData => {
+      setCurrentUser(newProfileData)
       closeAllPopups()
     })
     .catch(err => {
       console.log(err);
-    });
+    })
+    .finally(() => {
+      dispatch({type: 'SET_LOADING_FALSE'});
+    })
   }
 
+  // Добавление новой карточки
   const handleAddPlace = (cardData) => {
+    dispatch({type: 'SET_LOADING_TRUE'});
     api.postNewCard(cardData)
     .then(newCard => {
       setCards([newCard, ...cards])
@@ -117,6 +130,9 @@ function App() {
     })
     .catch(err => {
       console.log(err);
+    })
+    .finally(() => {
+      dispatch({type: 'SET_LOADING_FALSE'});
     });
   }
 

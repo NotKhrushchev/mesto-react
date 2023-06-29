@@ -1,7 +1,7 @@
 // Попап с картинкой
 import React from 'react';
 
-const ImagePopup = ({card, onClose}) => {
+const ImagePopup = ({ card, onClose }) => {
     return (
         <div className={`popup popup_type_img ${Object.keys(card).length !== 0 ? 'popup_opened' : ''}`}>
             <div className="popup__img-content">
