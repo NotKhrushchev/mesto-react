@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Footer from './footer/Footer';
 import Header from './header/Header';
@@ -36,7 +36,7 @@ function App() {
 
   
   // Обработчик нажатия на лайк карточки
-  const handleCardLike = (card) => {
+  const handleCardLike = useCallback((card) => {
 
     // Повторно проверяем есть ли лайк на карточке
     const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -48,24 +48,24 @@ function App() {
     .catch(err => {
       console.log(err);
     });
-  }
+  }, [currentUser]);
 
   // Функции открытия попапов
-  const handleEditProfileClick = () => {
+  const handleEditProfileClick = useCallback(() => {
     setEditProfilePopupOpen(true);
-  }
+  }, []);
 
-  const handleEditAvatarClick = () => {
+  const handleEditAvatarClick = useCallback(() => {
     setEditAvatarPopupOpen(true);
-  }
+  }, []);
 
   const handleAddPlaceClick = () => {
     setAddPlacePopupOpen(true);
   }
 
-  const handleCardClick = (card) => {
+  const handleCardClick = useCallback((card) => {
     setSelectedCard(card);
-  }
+  }, []);
 
   // Закрытие всех попапов
   const closeAllPopups = () => {
@@ -78,7 +78,7 @@ function App() {
   }
 
   // Обработчик нажатия на мусорку карточки
-  const handleCardRemove = (card) => {
+  const handleCardRemove = useCallback((card) => {
     api.removeCard(card._id)
     .then(()=> {
       setCards(cards => cards.filter(e => e._id !== card._id))
@@ -86,7 +86,7 @@ function App() {
     .catch(err => {
       console.log(err);
     });
-  }
+  }, []);
 
   // Обновление данных пользователя
   const handleUpdateProfile = (profileData) => {

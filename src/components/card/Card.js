@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-const Card = ({ card, onCardClick, onCardLike, onCardRemove }) => {
+const Card = React.memo(({ card, onCardClick, onCardLike, onCardRemove }) => {
 
     const currentUser = useContext(CurrentUserContext);
     const isOwn = card.owner._id === currentUser._id;
     const isLiked = card.likes.some(user => user._id === currentUser._id);
+    console.log('sdsds')
 
     return (
         <article className="card">
@@ -20,6 +21,6 @@ const Card = ({ card, onCardClick, onCardLike, onCardRemove }) => {
             </div>
         </article>
     );
-};
+});
 
 export default Card;

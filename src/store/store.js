@@ -1,10 +1,8 @@
 import { combineReducers, legacy_createStore as createStore } from 'redux';
 import loaderReducer from './reducers/loaderReducer.js';
-import currentUserReducer from './reducers/currentUserReducer.js';
 
 const rootReducer = combineReducers({
-    loader: loaderReducer,
-    currentUser: currentUserReducer
+    loader: loaderReducer
 })
 
 const store = createStore(rootReducer)

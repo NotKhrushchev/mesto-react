@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import Card from '../card/Card';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-const Main = ({ cards, onEditProfile, onEditAvatar, onAddPlace, onCardClick, onCardLike, onCardRemove }) => {
+const Main = React.memo(({ cards, onEditProfile, onEditAvatar, onAddPlace, onCardClick, onCardLike, onCardRemove }) => {
     
     const currentUser = useContext(CurrentUserContext);
 
@@ -22,7 +22,7 @@ const Main = ({ cards, onEditProfile, onEditAvatar, onAddPlace, onCardClick, onC
                     <Card
                         key={card._id}
                         card={card}
-                        // Прокинул из App обработчик нажатия на карточку и лайк
+                        // Прокинул из App обработчик нажатия на карточку, удаление и лайк
                         onCardClick={onCardClick}
                         onCardLike={onCardLike}
                         onCardRemove={onCardRemove}
@@ -31,6 +31,6 @@ const Main = ({ cards, onEditProfile, onEditAvatar, onAddPlace, onCardClick, onC
             </section>
         </main>
     );
-};
+});
 
 export default Main;
