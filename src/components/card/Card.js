@@ -6,7 +6,6 @@ const Card = React.memo(({ card, onCardClick, onCardLike, onCardRemove }) => {
     const currentUser = useContext(CurrentUserContext);
     const isOwn = card.owner._id === currentUser._id;
     const isLiked = card.likes.some(user => user._id === currentUser._id);
-    console.log('sdsds')
 
     return (
         <article className="card">
